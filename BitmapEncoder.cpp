@@ -2,10 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-#include <windows.h> // for shell calls
 
 typedef char color; // just for fun
-
 struct Bitmap
 { // will store entire PixelData
 
@@ -15,7 +13,6 @@ struct Bitmap
 	int padding; // padding to cater 4 byte boundary
 	int pixelDataSize; // total pixel data size in bytes
 	color *pixels;
-
 	Bitmap(int w, int h)
 	{
 		width = w;
@@ -24,7 +21,6 @@ struct Bitmap
 		pixelDataSize = (width * 3 + padding) * height;
 		pixels = new color[pixelDataSize];
 	}
-
 	~Bitmap()
 	{
 		delete[] pixels;
@@ -83,7 +79,6 @@ void writePixelData(FILE *file, Bitmap &bitmap) // Write Pixel Data in File
 void generateBitmap(Bitmap &bitmap) // Initializes Pixels, and what to store in them. Change this to have your desired output
 {
 	int color = 2; // 0 for blue, 1 for green, 2 for red
-
 	for (int y = bitmap.height - 1; y >= 0; y--)
 	{
 		for (int x = color; x < bitmap.width * 3; x+=3) // since colors are stored as bgr(0,0,0), start from 0 to give only blue, 1 to give only green and 2 for red
@@ -96,15 +91,10 @@ void generateBitmap(Bitmap &bitmap) // Initializes Pixels, and what to store in 
 void write(Bitmap &bitmap, const char *&filename)
 {
 	FILE *file = fopen(filename, "wb");
-
 	if (!file)
-	{
 		return;
-	}
-
 	// generate pixeldata of bitmap
 	generateBitmap(bitmap);
-	
 	// calling fns to write multiple parts of file
 	writeFileHeader(file, bitmap);
 	writeInfoHeader(file, bitmap);
@@ -121,16 +111,10 @@ int main()
 	scanf("%d", &width);
 	printf("Enter height of Bitmap to produce (pixels) : ");
 	scanf("%d", &height);
-
+	
 	Bitmap bitmap(width, height);
 	const char *filename = "BinEncoder.bmp";
 	write(bitmap, filename);
-
-	// opening in default viewer
-	if ((unsigned long long)ShellExecuteA(NULL, "open", filename, NULL, NULL, SW_SHOWNORMAL) > 32)
-		printf("\nOpened file in Default Bitmap Viewer successfully\n");
-	else
-		printf("!!!Failed to Open File %s", filename);
-
+	printf("The required bitmap is generated in current dir: %s",filename);
 	return 0;
 }
