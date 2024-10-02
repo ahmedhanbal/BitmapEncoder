@@ -118,9 +118,9 @@ int main()
 	srand(0);
 	int width = 0, height = 0;
 	printf("Enter width of Bitmap to produce (pixels) : ");
-	scanf_s("%d", &width);
+	scanf("%d", &width);
 	printf("Enter height of Bitmap to produce (pixels) : ");
-	scanf_s("%d", &height);
+	scanf("%d", &height);
 
 	Bitmap bitmap(width, height);
 	const char *filename = "BinEncoder.bmp";
