@@ -1,9 +1,8 @@
-/// Only on Windows
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
 
-typedef char color; // just for fun
+typedef char color;
 struct Bitmap
 { // will store entire PixelData
 
