@@ -26,6 +26,18 @@ struct Bitmap
 	}
 };
 
+void generateBitmap(Bitmap &bitmap) // Initializes Pixels, and what to store in them. Change this to have your desired output
+{
+	int color = 2; // 0 for blue, 1 for green, 2 for red
+	for (int y = bitmap.height - 1; y >= 0; y--)
+	{
+		for (int x = color; x < bitmap.width * 3; x+=3) // since colors are stored as bgr(0,0,0), start from 0 to give only blue, 1 to give only green and 2 for red
+		{
+			bitmap.pixels[y*bitmap.width+x] = 255;
+		}
+	}
+}
+
 int writeFileHeader(FILE *&file, Bitmap &bitmap) // writes BMP File Header 14 bytes in File
 {												 // Writing FileHeader of .BMP
 	int pixelDataSize = bitmap.pixelDataSize;
@@ -71,18 +83,6 @@ void writePixelData(FILE *file, Bitmap &bitmap) // Write Pixel Data in File
 		for (int x = 0; x < bitmap.width; x++)
 		{
 			fwrite(&bitmap.pixels[y * width + x], sizeof(int), 1, file);
-		}
-	}
-}
-
-void generateBitmap(Bitmap &bitmap) // Initializes Pixels, and what to store in them. Change this to have your desired output
-{
-	int color = 2; // 0 for blue, 1 for green, 2 for red
-	for (int y = bitmap.height - 1; y >= 0; y--)
-	{
-		for (int x = color; x < bitmap.width * 3; x+=3) // since colors are stored as bgr(0,0,0), start from 0 to give only blue, 1 to give only green and 2 for red
-		{
-			bitmap.pixels[y*bitmap.width+x] = 255;
 		}
 	}
 }
